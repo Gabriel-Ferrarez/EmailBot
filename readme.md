@@ -22,5 +22,4 @@ A automação de disparo de e-mails trouxe diversos benefícios, incluindo:
 - **Redução de Erros**: A automatização minimiza o risco de erros humanos, como destinatários incorretos ou mensagens não personalizadas.
 - **Aumento da Produtividade**: Ao eliminar tarefas manuais repetitivas, a equipe pode dedicar mais tempo a atividades que agregam valor ao negócio.
 
-Estou animado para ver como essa automação pode ajudar não só a minha equipe, mas também outras empresas a se tornarem mais eficientes em suas comunicações. Se você estiver interessado em mais detalhes sobre o projeto, sinta-se à vontade para entrar em contato!
 
