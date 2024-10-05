@@ -1,4 +1,4 @@
-# 🚀 Automação em Python para Disparo de E-mails: Mais Eficiência, Menos Esforço! 📧💻
+# 🚀 Automação em Python para Disparo de E-mails 📧💻
 
 Hoje, quero compartilhar um projeto que desenvolvi recentemente para a empresa onde trabalho, focado em automação de disparo de e-mails utilizando Python! 🎯
 
