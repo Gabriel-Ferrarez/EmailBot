@@ -52,20 +52,16 @@ class EmailSenderApp:
         threading.Thread(target=self.send_email).start()
 
     def send_email(self):
-        # Lê a senha do arquivo
-        try:
-            with open(self.password_file) as f:
-                senha_do_email = f.readline().strip()
-        except FileNotFoundError:
-            messagebox.showerror("Erro", f"Arquivo de senha não encontrado: {
-                                 self.password_file}")
+        # Obtém a senha do ambiente
+        senha_do_email = os.getenv('EMAIL_PASSWORD')
+        if not senha_do_email:
+            messagebox.showerror("Erro", "A variável de ambiente EMAIL_PASSWORD não foi definida.")
             return
 
         # Obtém a lista de e-mails do widget de texto
         email_list = self.email_text.get("1.0", "end-1c").splitlines()
         if not email_list:
-            messagebox.showerror(
-                "Erro", "Por favor, cole pelo menos um e-mail.")
+            messagebox.showerror("Erro", "Por favor, cole pelo menos um e-mail.")
             return
 
         # Configura o e-mail
