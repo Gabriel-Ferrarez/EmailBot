@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import time
 import threading
+import os  # Import necessário para lidar com os caminhos
 
 
 class EmailSenderApp:
@@ -40,7 +41,9 @@ class EmailSenderApp:
 
         # Variáveis de configuração
         self.email = 'gabriel.oliveira@coopluiza.com.br'
-        self.password_file = 'senha.txt'
+        self.password_file = os.path.join(
+            "senha", "senha.txt")  # Caminho do arquivo senha.txt
+        self.images_folder = os.path.join("img")  # Pasta que contém as imagens
         self.images = ['capitalizacao.png',
                        'visao.png', 'educa.png', 'esporte.png']
 
@@ -50,8 +53,13 @@ class EmailSenderApp:
 
     def send_email(self):
         # Lê a senha do arquivo
-        with open(self.password_file) as f:
-            senha_do_email = f.readline().strip()
+        try:
+            with open(self.password_file) as f:
+                senha_do_email = f.readline().strip()
+        except FileNotFoundError:
+            messagebox.showerror("Erro", f"Arquivo de senha não encontrado: {
+                                 self.password_file}")
+            return
 
         # Obtém a lista de e-mails do widget de texto
         email_list = self.email_text.get("1.0", "end-1c").splitlines()
@@ -66,7 +74,7 @@ class EmailSenderApp:
         msg['From'] = self.email
         link = 'https://wscredcoopluiza.facilinformatica.com.br/facweb/#formulario-de-pessoa-fisica'
         html = f"""
-        <html> <body style="background-color: #007b83; font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center;">
+        <html>  <body style="background-color: #007b83; font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center;">
         <!-- Contêiner centralizado -->
         <div style="max-width: 750px; margin: 0 auto; padding: 20px; padding-top: 70px;">
             <!-- Link com imagem centralizada -->
@@ -154,11 +162,16 @@ class EmailSenderApp:
         self.update_status(f"Envio concluído em {elapsed_time:.2f} segundos.")
 
     def add_image(self, filename, cid, msg):
-        with open(filename, 'rb') as img_file:
-            img_data = img_file.read()
-            image = MIMEImage(img_data, name=filename)
-            image.add_header('Content-ID', f'<{cid}>')
-            msg.attach(image)
+        image_path = os.path.join(
+            self.images_folder, filename)  # Caminho da imagem
+        try:
+            with open(image_path, 'rb') as img_file:
+                img_data = img_file.read()
+                image = MIMEImage(img_data, name=filename)
+                image.add_header('Content-ID', f'<{cid}>')
+                msg.attach(image)
+        except FileNotFoundError:
+            self.update_status(f"Imagem não encontrada: {image_path}")
 
     def update_status(self, message, lote=[]):
         # Atualiza a área de status
